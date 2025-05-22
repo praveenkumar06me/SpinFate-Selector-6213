@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import React,{useState} from 'react';
+import {HashRouter as Router,Routes,Route} from 'react-router-dom';
+import {AnimatePresence} from 'framer-motion';
 import FunFridayLanding from './components/FunFridayLanding';
 import Wheel from './components/Wheel';
 import NameInput from './components/NameInput';
@@ -10,47 +10,47 @@ import WinnerPopup from './components/WinnerPopup';
 import MusicPlayer from './components/MusicPlayer';
 
 function SpinWheelApp() {
-  const [names, setNames] = useState([]);
-  const [rotation, setRotation] = useState(0);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [winner, setWinner] = useState(null);
+  const [names,setNames]=useState([]);
+  const [rotation,setRotation]=useState(0);
+  const [isSpinning,setIsSpinning]=useState(false);
+  const [showConfetti,setShowConfetti]=useState(false);
+  const [winner,setWinner]=useState(null);
 
-  const handleAddName = (name) => {
+  const handleAddName=(name)=> {
     if (names.length < 50 && !names.includes(name)) {
-      setNames([...names, name]);
+      setNames([...names,name]);
     }
   };
 
-  const handleRemoveName = (nameToRemove) => {
-    setNames(names.filter(name => name !== nameToRemove));
+  const handleRemoveName=(nameToRemove)=> {
+    setNames(names.filter(name=> name !==nameToRemove));
   };
 
-  const handleClearAll = () => {
+  const handleClearAll=()=> {
     setNames([]);
   };
 
-  const spinWheel = () => {
+  const spinWheel=()=> {
     if (names.length < 2 || isSpinning) return;
     setIsSpinning(true);
-    const newRotation = rotation + 1440 + Math.random() * 360;
+    const newRotation=rotation + 1440 + Math.random() * 360;
     setRotation(newRotation);
-    setTimeout(() => {
+    setTimeout(()=> {
       setIsSpinning(false);
       setShowConfetti(true);
-      const winnerIndex = Math.floor((360 - (newRotation % 360)) / (360 / names.length));
-      const newWinner = names[winnerIndex];
+      const winnerIndex=Math.floor((360 - (newRotation % 360)) / (360 / names.length));
+      const newWinner=names[winnerIndex];
       setWinner(newWinner);
-    }, 4000);
+    },4000);
   };
 
-  const handleRemoveWinner = () => {
+  const handleRemoveWinner=()=> {
     handleRemoveName(winner);
     setWinner(null);
     setShowConfetti(false);
   };
 
-  const handleNext = () => {
+  const handleNext=()=> {
     setWinner(null);
     setShowConfetti(false);
   };
@@ -68,28 +68,37 @@ function SpinWheelApp() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-white text-center">
+      <div className="relative z-10 max-w-6xl mx-auto pt-12 pb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-16">
           Fun at Questera, Let's Spin
         </h1>
-        <div className="relative">
-          <Wheel
-            names={names}
-            rotation={rotation}
-            isSpinning={isSpinning}
-            onSpin={spinWheel}
-          />
+        
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+          {/* Wheel Section */}
+          <div className="flex-1 flex justify-center">
+            <div className="relative">
+              <Wheel
+                names={names}
+                rotation={rotation}
+                isSpinning={isSpinning}
+                onSpin={spinWheel}
+              />
+            </div>
+          </div>
+
+          {/* Name Input Section */}
+          <div className="flex-1 w-full md:max-w-md space-y-6">
+            <NameInput onAdd={handleAddName} />
+            <AnimatePresence>
+              <NameList
+                names={names}
+                onRemove={handleRemoveName}
+                onClearAll={handleClearAll}
+              />
+            </AnimatePresence>
+          </div>
         </div>
-        <div className="w-full max-w-md">
-          <NameInput onAdd={handleAddName} />
-        </div>
-        <AnimatePresence>
-          <NameList
-            names={names}
-            onRemove={handleRemoveName}
-            onClearAll={handleClearAll}
-          />
-        </AnimatePresence>
+
         <Confetti isVisible={showConfetti} />
         <WinnerPopup 
           winner={winner}

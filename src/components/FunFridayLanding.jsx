@@ -2,36 +2,24 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaArrowRight, FaGlassCheers, FaMusic, FaGamepad, FaPizzaSlice } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import MusicPlayer from './MusicPlayer';
 
 const FunFridayLanding = () => {
   const activities = [
-    {
-      icon: <FaGlassCheers size={40} className="text-purple-500" />,
-      title: "Happy Hour",
-      description: "Unwind with refreshing drinks and snacks"
-    },
-    {
-      icon: <FaMusic size={40} className="text-yellow-500" />,
-      title: "Music & Dance",
-      description: "Show off your moves to the hottest beats"
-    },
-    {
-      icon: <FaGamepad size={40} className="text-red-500" />,
-      title: "Game Zone",
-      description: "Friendly competitions and challenges"
-    },
-    {
-      icon: <FaPizzaSlice size={40} className="text-green-500" />,
-      title: "Food Galore",
-      description: "Delicious treats for everyone"
-    }
+    {icon: <FaGlassCheers size={40} className="text-purple-500" />, title: "Happy Hour", description: "Unwind with refreshing drinks, tasty snacks, and the sweet thrill of paying for it all yourself"},
+    {icon: <FaMusic size={40} className="text-yellow-500" />, title: "Music & Dance", description: "Show off your moves to the hottest beats"},
+    {icon: <FaGamepad size={40} className="text-red-500" />, title: "Game Zone", description: "Friendly competitions and challenges"},
+    {icon: <FaPizzaSlice size={40} className="text-green-500" />, title: "Food Galore", description: "Delicious treats for everyone… in your magical, imaginary world where calories don't count, guac isn't extra, and your fries never go missing"}
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-purple-900 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-purple-900 text-white relative overflow-hidden">
+      {/* Music Player in bottom left */}
+      <MusicPlayer />
+
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-16 text-center">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -53,16 +41,12 @@ const FunFridayLanding = () => {
             "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
           ].map((img, index) => (
-            <motion.div
+            <motion.div 
               key={index}
               whileHover={{ scale: 1.05 }}
               className="overflow-hidden rounded-xl shadow-lg"
             >
-              <img 
-                src={img} 
-                alt={`Party scene ${index + 1}`} 
-                className="w-full h-48 md:h-64 object-cover"
-              />
+              <img src={img} alt={`Party scene ${index + 1}`} className="w-full h-48 md:h-64 object-cover" />
             </motion.div>
           ))}
         </div>
@@ -103,7 +87,8 @@ const FunFridayLanding = () => {
             to="/spin"
             className="inline-flex items-center justify-center bg-white text-purple-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
           >
-            Spin the Wheel <FaArrowRight className="ml-2" />
+            Spin the Wheel
+            <FaArrowRight className="ml-2" />
           </Link>
         </motion.div>
       </div>
